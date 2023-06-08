@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이벤트 위임하기</title>
+  </head>
+  <body>
+    <!--
+질문 1 : 이벤트 위임하기
+어플리케이션을 제작할 때 사용자가 페이지 요소를 조작할 수 있도록
+페이지의 버튼, 텍스트, 이미지 등에 이벤트를 붙여야 할 때가 있습니다.
+예를 들어, 면접에서 면접관이 todo 리스트 어플리케이션 제작에 대해 질문하는 경우
+"해당 리스트의 아이템에 대해서 사용자가 클릭할 때 이벤트가 일어나도록 구현하라" 라고 하면서 아래와 같은 샘플을 주겠죠.
+    -->
+    <ul id="todo-app">
+      <li class="item">Walk the dog</li>
+      <li class="item">Pay bills</li>
+      <li class="item">Make dinner</li>
+      <li class="item">Code for one hour</li>
+    </ul>
+  </body>
+  <script>
+    /*
+    // 내가 했던 접근 방법
+    document.addEventListener('DOMContentLoaded', function () {
+      let app = document.getElementById('todo-app');
+      let items = app.getElementsByClassName('item');
+
+      // 각 아이템에 이벤트 리스너를 등록합니다.
+      for (let item of items) {
+        item.addEventListener('click', function () {
+          alert('you clicked on item: ' + item.innerHTML);
+        });
+      }
+    });
+    */
+    /*
+위 코드는 제대로 동작하지만 문제점은 리스트의 아이템 각각에 이벤트를 붙이고 있는 것입니다.
+아이템 요소가 위와 같이 4개일 때는 상관이 없지만 만약 10,000 개 라면 어떻게 될까요? 
+위 함수는 10,000 개의 분리된 이벤트 리스너를 생성하고 그걸 각각 DOM에 등록할 것입니다. 이는 매우 비효율적이죠.
+
+이런 면접에서는 먼저 면접관에게 사용자가 최대로 입력할 수 있는 요소의 개수를 물어보는 것이 좋습니다. 
+최대 갯수가 10개가 넘지 않는다면, 위 코드는 문제가 없을테니까요. 
+하지만 만약 사용자가 입력할 수 있는 아이템 수가 무한개라면 더 효율적인 해결책을 찾아야 합니다.
+
+아이템 갯수마다 이벤트 리스너를 생성, 등록 하는 것보다는 모든 아이템 리스트에 대해서
+한 개의 이벤트 리스너를 생성하여 전체 영역에 등록하는 것이 훨씬 효율적이죠. 
+그렇게 하면 사용자가 해당 아이템을 선택했을 때 이벤트 리스너가 해당 아이템에 대해서 이벤트를 발생시킵니다. 
+이 것을 우리는 이벤트 위임 이라고 합니다. 각각의 이벤트 핸들러를 붙이는 방식보다 훨씬 효율적이죠.
+*/
+
+    // 이벤트 위임
+    document.addEventListener('DOMContentLoaded', function () {
+      let app = document.getElementById('todo-app');
+
+      // 리스트 아이템의 전체 영역에 이벤트 리스너를 등록합니다.
+      app.addEventListener('click', function (e) {
+        if (e.target && e.target.nodeName === 'LI') {
+          let item = e.target;
+          alert('you clicked on item: ' + item.innerHTML);
+        }
+      });
+    });
+  </script>
+</html>
