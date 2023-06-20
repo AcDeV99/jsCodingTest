@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>비동기 처리</title>
+  </head>
+  <body>
+    <script>
+      console.log(location.origin);
+      function fetchUser() {
+        var url =
+          'https://github.com/AcDeV99/AcDev99.github.io/blob/main/testData/products.json';
+        return fetch(url).then(function (response) {
+          return response.json();
+        });
+      }
+
+      function fetchTodo() {
+        var url =
+          'https://github.com/AcDeV99/AcDev99.github.io/blob/main/testData/products.json';
+        return fetch(url).then(function (response) {
+          return response.json();
+        });
+      }
+      async function logTodoTitle() {
+        var user = await fetchUser();
+        if (user.id === 1) {
+          var todo = await fetchTodo();
+          console.log(todo.price); // delectus aut autem
+        }
+      }
+    </script>
+    <script>
+      logTodoTitle();
+      /*
+Promise.html:1 Access to fetch at 'https://github.com/AcDeV99/AcDev99.github.io/blob/main/testData/products.json' from origin 'http://172.31.16.1:64727' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+Promise.html:14     GET https://github.com/AcDeV99/AcDev99.github.io/blob/main/testData/products.json net::ERR_FAILED 200
+fetchUser @ Promise.html:14
+logTodoTitle @ Promise.html:27
+(anonymous) @ Promise.html:35
+Promise.html:14        Uncaught (in promise) TypeError: Failed to fetch
+    at fetchUser (Promise.html:14:16)
+    at logTodoTitle (Promise.html:27:26)
+    at Promise.html:35:7      
+      */
+    </script>
+  </body>
+</html>
